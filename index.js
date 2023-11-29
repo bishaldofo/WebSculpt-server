@@ -25,8 +25,15 @@ async function run() {
       // Connect the client to the server	(optional starting in v4.7)
       //  await client.connect();
       
+      const usersCollection = client.db("webSculptDb").collection("users");
       const servicesCollection = client.db("webSculptDb").collection("services");
       const reviewsCollection = client.db("webSculptDb").collection("reviews");
+
+      app.post('/users', async (req, res) => {
+         const user = req.body;
+         const result = await usersCollection.insertOne(user);
+         res.send(result);
+      })
 
       app.get('/services', async (req, res) => {
          const result = await servicesCollection.find().toArray();
